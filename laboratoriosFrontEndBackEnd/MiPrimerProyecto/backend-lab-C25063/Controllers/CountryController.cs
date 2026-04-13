@@ -19,5 +19,23 @@ namespace backend_lab_C25063.Controllers
             var paises = countryService.GetCountries();
             return paises;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<bool>> CreateCountry(CountryModel country)
+        {
+            if (country == null)
+            {
+                return BadRequest();
+            }
+            var result = countryService.CreateCountry(country);
+            if (string.IsNullOrEmpty(result))
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }

@@ -1,6 +1,14 @@
 <template>
   <div class="container mt-5">
     <h1 class = "display-4 text-center">Lista de paises</h1>
+    <div class="row justify-content-end">
+      <div class="col-2">
+        <a href="/country">
+          <button type= "button" class="btn btn-outline-secondary float-right">Agregar país</button>
+        </a>
+      </div>
+    </div>
+
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
       <thead>
         <tr>
@@ -26,6 +34,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "CountriesList",
   data() {
@@ -42,14 +51,25 @@ export default {
         { name: "Alemania", continent: "Europa", language: "Alemán" },
       ],
     };
+
   },
+
   methods: {
     eliminarPais(index) {
       this.countries.splice(index, 1);
-    }
-  }
- }
+    },
 
+    getCountries() {
+      axios.get("http://localhost:5144/api/country")
+        .then(response => {
+          this.countries = response.data
+        });
+    },
+  },
+    created: function() {
+    this.getCountries();
+  },
+};  
 </script>
 
 <style scoped>
